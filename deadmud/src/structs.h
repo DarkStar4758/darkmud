@@ -155,10 +155,10 @@
 
 /* PC classes */
 #define CLASS_UNDEFINED	  (-1) /**< PC Class undefined */
-#define CLASS_MAGIC_USER  0    /**< PC Class Magic User */
-#define CLASS_CLERIC      1    /**< PC Class Cleric */
-#define CLASS_THIEF       2    /**< PC Class Thief */
-#define CLASS_WARRIOR     3    /**< PC Class Warrior */
+#define CLASS_BIOTIC  0    /**< PC Class Biotic */
+#define CLASS_MEDIC      1    /**< PC Class Medic */
+#define CLASS_BANDIT       2    /**< PC Class Bandit */
+#define CLASS_SOLDIER     3    /**< PC Class Soldier */
 /** Total number of available PC Classes */
 #define NUM_CLASSES	  4
 
@@ -427,10 +427,10 @@
 #define ITEM_ANTI_GOOD         9   /**< Not usable by good people	*/
 #define ITEM_ANTI_EVIL        10   /**< Not usable by evil people	*/
 #define ITEM_ANTI_NEUTRAL     11   /**< Not usable by neutral people */
-#define ITEM_ANTI_MAGIC_USER  12   /**< Not usable by mages */
-#define ITEM_ANTI_CLERIC      13   /**< Not usable by clerics */
-#define ITEM_ANTI_THIEF	      14   /**< Not usable by thieves */
-#define ITEM_ANTI_WARRIOR     15   /**< Not usable by warriors */
+#define ITEM_ANTI_BIOTIC      12   /**< Not usable by biotics */
+#define ITEM_ANTI_MEDIC       13   /**< Not usable by medicss */
+#define ITEM_ANTI_BANDIT      14   /**< Not usable by banditss */
+#define ITEM_ANTI_SOLDIER     15   /**< Not usable by soldiers */
 #define ITEM_NOSELL           16   /**< Shopkeepers won't touch it */
 #define ITEM_QUEST            17   /**< Item is a quest item         */
 /** Total number of item flags */

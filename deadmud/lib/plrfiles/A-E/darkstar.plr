@@ -1,21 +1,20 @@
-Name: DarkStar
+Name: Darkstar
 Pass: DahJORRaRCulA
 Titl: the Implementor
 Sex : 1
+Clas: 2
 Levl: 55
 Id  : 1
-Brth: 1364668483
-Plyd: 24
-Last: 1364668845
-Lmot: 1364668500
-Lnew: 1364668502
-Host: 68-191-136-53.dhcp.dctr.al.charter.com
-Hite: 169
-Wate: 153
+Brth: 1364767819
+Plyd: 0
+Last: 1364767819
+Host: localhost
+Hite: 177
+Wate: 161
 Act : 0 0 0 0
 Aff : 0 0 0 0
 Pref: efghno 0 0 0
-Room: 65535
+Room: 1204
 Hit : 500/500
 Mana: 100/100
 Move: 82/82
@@ -28,3 +27,4 @@ Cha : 25
 Ac  : 100
 Exp : 7000000
 Olc : 0
+Page: 0

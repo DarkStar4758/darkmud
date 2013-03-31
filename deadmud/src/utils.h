@@ -851,18 +851,18 @@ do                                                              \
 /** Return the class abbreviation for ch. */
 #define CLASS_ABBR(ch) (IS_NPC(ch) ? "--" : class_abbrevs[(int)GET_CLASS(ch)])
 
-/** 1 if ch is magic user class, 0 if not. */
-#define IS_MAGIC_USER(ch)	(!IS_NPC(ch) && \
-        (GET_CLASS(ch) == CLASS_MAGIC_USER))
-/** 1 if ch is cleric class, 0 if not. */
-#define IS_CLERIC(ch)		(!IS_NPC(ch) && \
-        (GET_CLASS(ch) == CLASS_CLERIC))
-/** 1 if ch is thief class, 0 if not. */
-#define IS_THIEF(ch)		(!IS_NPC(ch) && \
-        (GET_CLASS(ch) == CLASS_THIEF))
-/** 1 if ch is warrior class, 0 if not. */
-#define IS_WARRIOR(ch)		(!IS_NPC(ch) && \
-        (GET_CLASS(ch) == CLASS_WARRIOR))
+/** 1 if ch is biotic class, 0 if not. */
+#define IS_BIOTIC(ch)	(!IS_NPC(ch) && \
+        (GET_CLASS(ch) == CLASS_BIOTIC))
+/** 1 if ch is medic class, 0 if not. */
+#define IS_MEDIC(ch)		(!IS_NPC(ch) && \
+        (GET_CLASS(ch) == CLASS_MEDIC))
+/** 1 if ch is bandit class, 0 if not. */
+#define IS_BANDIT(ch)		(!IS_NPC(ch) && \
+        (GET_CLASS(ch) == CLASS_BANDIT))
+/** 1 if ch is soldier class, 0 if not. */
+#define IS_SOLDIER(ch)		(!IS_NPC(ch) && \
+        (GET_CLASS(ch) == CLASS_SOLDIER))
 
 /** Defines if ch is outdoors or not. */
 #define OUTSIDE(ch) (!ROOM_FLAGGED(IN_ROOM(ch), ROOM_INDOORS))

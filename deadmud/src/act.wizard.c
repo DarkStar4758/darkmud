@@ -2708,10 +2708,10 @@ ACMD(do_show)
 
     for (j = 1; j < LVL_IMMORT; j++) {
       nlen = snprintf(buf + len, sizeof(buf) - len,  "%-3d - %-2d %-2d %-2d %-2d\r\n", j, 
-				thaco(CLASS_MAGIC_USER, j),
-				thaco(CLASS_CLERIC, j),
-				thaco(CLASS_THIEF, j),
-				thaco(CLASS_WARRIOR, j));
+				thaco(CLASS_BIOTIC, j),
+				thaco(CLASS_MEDIC, j),
+				thaco(CLASS_BANDIT, j),
+				thaco(CLASS_SOLDIER, j));
       if (len + nlen >= sizeof(buf))
         break;
       len += nlen;
@@ -2726,10 +2726,10 @@ ACMD(do_show)
 
     for (i = 1; i < LVL_IMMORT; i++) { 
       nlen = snprintf(buf + len, sizeof(buf) - len,  "%-3d - %-6d %-6d %-6d %-6d\r\n", i,  
-				level_exp(CLASS_MAGIC_USER, i) - level_exp(CLASS_MAGIC_USER, i - 1),
-				level_exp(CLASS_CLERIC, i) - level_exp(CLASS_CLERIC, i - 1),
-				level_exp(CLASS_THIEF, i) - level_exp(CLASS_THIEF, i - 1),
-				level_exp(CLASS_WARRIOR, i) - level_exp(CLASS_WARRIOR, i - 1));
+				level_exp(CLASS_BIOTIC, i) - level_exp(CLASS_BIOTIC, i - 1),
+				level_exp(CLASS_MEDIC, i) - level_exp(CLASS_MEDIC, i - 1),
+				level_exp(CLASS_BANDIT, i) - level_exp(CLASS_BANDIT, i - 1),
+				level_exp(CLASS_SOLDIER, i) - level_exp(CLASS_SOLDIER, i - 1));
       if (len + nlen >= sizeof(buf))
         break;
       len += nlen;

@@ -77,10 +77,10 @@ struct shop_data {
 #define TRADE_NOGOOD       (1 << 0)
 #define TRADE_NOEVIL       (1 << 1)
 #define TRADE_NONEUTRAL    (1 << 2)
-#define TRADE_NOMAGIC_USER (1 << 3)
-#define TRADE_NOCLERIC     (1 << 4)
-#define TRADE_NOTHIEF      (1 << 5)
-#define TRADE_NOWARRIOR    (1 << 6)
+#define TRADE_NOBIOTIC (1 << 3)
+#define TRADE_NOMEDIC     (1 << 4)
+#define TRADE_NOBANDIT      (1 << 5)
+#define TRADE_NOSOLDIER    (1 << 6)
 /** Total number of trade types */
 #define NUM_TRADERS     7
 
@@ -122,10 +122,10 @@ struct stack_data {
 #define NOTRADE_GOOD(i)		(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOGOOD))
 #define NOTRADE_EVIL(i)		(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOEVIL))
 #define NOTRADE_NEUTRAL(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NONEUTRAL))
-#define NOTRADE_MAGIC_USER(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOMAGIC_USER))
-#define NOTRADE_CLERIC(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOCLERIC))
-#define NOTRADE_THIEF(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOTHIEF))
-#define NOTRADE_WARRIOR(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOWARRIOR))
+#define NOTRADE_BIOTIC(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOBIOTIC))
+#define NOTRADE_MEDIC(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOMEDIC))
+#define NOTRADE_BANDIT(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOBANDIT))
+#define NOTRADE_SOLDIER(i)	(IS_SET(SHOP_TRADE_WITH((i)), TRADE_NOSOLDIER))
 
 /* Shop flags */
 #define WILL_START_FIGHT    (1 << 0)
