@@ -26,6 +26,7 @@
 #include "fight.h"
 #include "modify.h"
 #include "asciimap.h"
+#include "race.h"
 
 /* prototypes of local functions */
 /* do_diagnose utility functions */
@@ -1105,7 +1106,7 @@ ACMD(do_help)
 }
 
 #define WHO_FORMAT \
-"Usage: who [minlev[-maxlev]] [-n name] [-c classlist] [-k] [-l] [-n] [-q] [-r] [-s] [-z]\r\n"
+"Usage: who [minlev[-maxlev]] [-n name] [-c classlist] [-t racelist] [-k] [-l] [-n] [-q] [-r] [-s] [-z]\r\n"
 
 /* Written by Rhade */
 ACMD(do_who)
@@ -1116,7 +1117,7 @@ ACMD(do_who)
   char name_search[MAX_INPUT_LENGTH], buf[MAX_INPUT_LENGTH];
   char mode;
   int low = 0, high = LVL_IMPL, localwho = 0, questwho = 0;
-  int showclass = 0, short_list = 0, outlaws = 0;
+  int showclass = 0, showrace = 0, short_list = 0, outlaws = 0;
   int who_room = 0, showgroup = 0, showleader = 0;
 
   struct {
@@ -1179,6 +1180,10 @@ ACMD(do_who)
         showgroup = 1;
         strcpy(buf, buf1);   /* strcpy: OK (sizeof: buf1 == buf) */
         break;
+      case 't':
+        half_chop(buf1, arg, buf);
+        showrace = find_race_bitvector(arg);
+        break;
       default:
         send_to_char(ch, "%s", WHO_FORMAT);
         return;
@@ -1210,6 +1215,8 @@ ACMD(do_who)
       if (who_room && (IN_ROOM(tch) != IN_ROOM(ch)))
         continue;
       if (showclass && !(showclass & (1 << GET_CLASS(tch))))
+        continue;
+      if (showrace && !(showrace & (1 << GET_RACE(tch))))
         continue;
       if (showgroup && !GROUP(tch))
         continue;
@@ -1261,15 +1268,15 @@ ACMD(do_who)
         continue;
 
       if (short_list) {
-        send_to_char(ch, "%s[%2d %s] %-12.12s%s%s",
+        send_to_char(ch, "%s[%2d %s %s] %-12.12s%s%s",
           (GET_LEVEL(tch) >= LVL_IMMORT ? CCYEL(ch, C_SPR) : ""),
-          GET_LEVEL(tch), CLASS_ABBR(tch), GET_NAME(tch),
+          GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch), GET_NAME(tch),
           CCNRM(ch, C_SPR), ((!(++num_can_see % 4)) ? "\r\n" : ""));
       } else {
         num_can_see++;
-        send_to_char(ch, "%s[%2d %s] %s%s%s%s",
+        send_to_char(ch, "%s[%2d %s %s] %s%s%s%s",
             (GET_LEVEL(tch) >= LVL_IMMORT ? CCYEL(ch, C_SPR) : ""),
-            GET_LEVEL(tch), CLASS_ABBR(tch),
+            GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch),
             GET_NAME(tch), (*GET_TITLE(tch) ? " " : ""), GET_TITLE(tch),
             CCNRM(ch, C_SPR));
         
@@ -2393,7 +2400,7 @@ ACMD(do_whois)
 
   sprinttype (victim->player.chclass, pc_class_types, buf, sizeof(buf));
   send_to_char(ch, "Class: %s\r\n", buf);
-
+  send_to_char(ch, "Race : %s\r\n", pc_race_types[(int)GET_RACE(victim)]);
   send_to_char(ch, "Level: %d\r\n", GET_LEVEL(victim));
 
   if (!(GET_LEVEL(victim) < LVL_IMMORT) || (GET_LEVEL(ch) >= GET_LEVEL(victim))) {

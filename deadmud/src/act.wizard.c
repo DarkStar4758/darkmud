@@ -28,6 +28,7 @@
 #include "class.h"
 #include "genolc.h"
 #include "genobj.h"
+#include "race.h"
 #include "fight.h"
 #include "house.h"
 #include "modify.h"
@@ -758,9 +759,9 @@ static void do_stat_character(struct char_data *ch, struct char_data *k)
   send_to_char(ch, "D-Des: %s", k->player.description ? k->player.description : "<None>\r\n");
 
   sprinttype(k->player.chclass, pc_class_types, buf, sizeof(buf));
-  send_to_char(ch, "%s%s, Lev: [%s%2d%s], XP: [%s%7d%s], Align: [%4d]\r\n",
-	IS_NPC(k) ? "Mobile" : "Class: ", IS_NPC(k) ? "" : buf, CCYEL(ch, C_NRM), GET_LEVEL(k), CCNRM(ch, C_NRM),
-	CCYEL(ch, C_NRM), GET_EXP(k), CCNRM(ch, C_NRM), GET_ALIGNMENT(k));
+  send_to_char(ch, "%s%s, %s%s, Lev: [%s%2d%s], XP: [%s%7d%s], Align: [%4d]\r\n", IS_NPC(k) ? "" : "Race: ",pc_race_types[(int)GET_RACE(k)],
+        IS_NPC(k) ? "Mobile" : "Class: ", IS_NPC(k) ? "" : buf, CCYEL(ch, C_NRM), GET_LEVEL(k), CCNRM(ch, C_NRM),
+        CCYEL(ch, C_NRM), GET_EXP(k), CCNRM(ch, C_NRM), GET_ALIGNMENT(k));
 
   if (!IS_NPC(k)) {
     char buf1[64], buf2[64];
@@ -2049,9 +2050,9 @@ ACMD(do_last)
       return;
     }
 
-    send_to_char(ch, "[%5ld] [%2d %s] %-12s : %-18s : %-20s\r\n",
+    send_to_char(ch, "[%5ld] [%2d %s %s] %-12s : %-18s : %-20s\r\n",
     GET_IDNUM(vict), (int) GET_LEVEL(vict),
-    class_abbrevs[(int) GET_CLASS(vict)], GET_NAME(vict),
+    class_abbrevs[(int) GET_CLASS(vict)], race_abbrevs[(int) GET_RACE(vict)], GET_NAME(vict),
     GET_HOST(vict) && *GET_HOST(vict) ? GET_HOST(vict) : "(NOHOST)",
     ctime(&vict->player.time.logon));
     free_char(vict);
@@ -2561,9 +2562,9 @@ ACMD(do_show)
       free_char(vict);
       return;
     }
-    send_to_char(ch, "Player: %-12s (%s) [%2d %s]\r\n", GET_NAME(vict),
+    send_to_char(ch, "Player: %-12s (%s) [%2d %s %s]\r\n", GET_NAME(vict),
       genders[(int) GET_SEX(vict)], GET_LEVEL(vict), class_abbrevs[(int)
-      GET_CLASS(vict)]);
+      GET_CLASS(vict)], race_abbrevs[(int) GET_RACE(vict)]);
     send_to_char(ch, "Au: %-8d  Bal: %-8d  Exp: %-8d  Align: %-5d  Lessons: %-3d\r\n",
     GET_GOLD(vict), GET_BANK_GOLD(vict), GET_EXP(vict),
     GET_ALIGNMENT(vict), GET_PRACTICES(vict));
@@ -2841,6 +2842,7 @@ ACMD(do_show)
    { "wis", 		LVL_BUILDER, 	BOTH, 	NUMBER }, /* 55 */
    { "questpoints",     LVL_GOD,        PC,     NUMBER },
    { "questhistory",    LVL_GOD,        PC,   NUMBER },
+   { "race",            LVL_BUILDER,    PC,     NUMBER},
    { "\n", 0, BOTH, MISC }
   };
 
@@ -3252,6 +3254,13 @@ static int perform_set(struct char_data *ch, struct char_data *vict, int mode, c
      qvnum, GET_NAME(vict));
         }
         break;
+     case 58: /* race */
+      if ((i = parse_race(*val_arg)) == RACE_UNDEFINED) {
+        send_to_char(ch, "That is not a race.\r\n");
+        return (0);
+      }
+      GET_RACE(vict) = i;
+      break;
       }
     default:
       send_to_char(ch, "Can't set that!\r\n");

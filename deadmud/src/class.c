@@ -47,11 +47,14 @@ const char *pc_class_types[] = {
 /* The menu for choosing a class in interpreter.c: */
 const char *class_menu =
 "\r\n"
-"Select a class:\r\n"
-"  [\t(M\t)]edic\r\n"
-"  [\t(B\t)]andit\r\n"
-"  [\t(S\t)]oldier\r\n"
-"  B[\t(i\t)]otic\r\n";
+"+------------------+\r\n"
+"|       Class      |\r\n"
+"+------------------+\r\n"
+"| A) Medic         |\r\n"
+"| B) Bandit        |\r\n"
+"| C) Soldier       |\r\n"
+"| D) Biotic        |\r\n"
+"+------------------|\r\n";
 
 /* The code to interpret a class letter -- used in interpreter.c when a new
  * character is selecting a class and by 'set class' in act.wizard.c. */
@@ -60,10 +63,10 @@ int parse_class(char arg)
   arg = LOWER(arg);
 
   switch (arg) {
-  case 'm': return CLASS_MEDIC;
+  case 'a': return CLASS_MEDIC;
   case 'b': return CLASS_BANDIT;
-  case 's': return CLASS_SOLDIER;
-  case 'i': return CLASS_BIOTIC;
+  case 'c': return CLASS_SOLDIER;
+  case 'd': return CLASS_BIOTIC;
   default:  return CLASS_UNDEFINED;
   }
 }

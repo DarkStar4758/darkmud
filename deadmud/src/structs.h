@@ -170,6 +170,15 @@
 #define CLASS_DRAGON      4    /**< NPC Class Dragon */
 #define CLASS_GIANT       5    /**< NPC Class Giant */
 
+/* PC Races */
+#define RACE_UNDEFINED  (-1) /*Race Undefined*/
+#define RACE_HUMAN      0 /* Race Human */
+#define RACE_MUTANT     1 /* Race Mutant */
+#define RACE_ZOMBIE     2 /* Race Zombie */
+
+/** Total number of available PC Races */
+#define NUM_RACES     3
+
 /* Sex */
 #define SEX_NEUTRAL   0   /**< Neutral Sex (Hermaphrodite) */
 #define SEX_MALE      1   /**< Male Sex (XY Chromosome) */
@@ -336,6 +345,7 @@
 #define CON_IBTEDIT      30 /**< OLC mode - idea/bug/typo edit */
 #define CON_MSGEDIT      31 /**< OLC mode - message editor */
 #define CON_GET_PROTOCOL 32 /**< Used at log-in while attempting to get protocols > */
+#define CON_QRACE        33 /**< Choose character race > */
 
 /* OLC States range - used by IS_IN_OLC and IS_PLAYING */
 #define FIRST_OLC_STATE CON_OEDIT     /**< The first CON_ state that is an OLC */
@@ -433,8 +443,11 @@
 #define ITEM_ANTI_SOLDIER     15   /**< Not usable by soldiers */
 #define ITEM_NOSELL           16   /**< Shopkeepers won't touch it */
 #define ITEM_QUEST            17   /**< Item is a quest item         */
+#define ITEM_ANTI_HUMAN       18   /* Not usable by Humans*/
+#define ITEM_ANTI_MUTANT      19   /* Not usable by Mutants */
+#define ITEM_ANTI_ZOMBIE      20   /* Not usable by Zombies*/
 /** Total number of item flags */
-#define NUM_ITEM_FLAGS    18
+#define NUM_ITEM_FLAGS    21
 
 /* Modifier constants used with obj affects ('A' fields) */
 #define APPLY_NONE              0	/**< No effect			*/
@@ -878,6 +891,7 @@ struct char_player_data
   struct time_data time;         /**< PC AGE in days */
   ubyte weight;                  /**< PC / NPC weight */
   ubyte height;                  /**< PC / NPC height */
+  byte race;                     /**< PC / NPC race*/
 };
 
 /** Character abilities. Different instances of this structure are used for

@@ -130,6 +130,7 @@ struct char_file_u_plrtoascii {
    char	title[MAX_TITLE_LENGTH+1];
    byte sex;
    byte chclass;
+   byte race;
    byte level;
    sh_int hometown;
    time_t birth;   /* Time of birth of character     */
@@ -208,6 +209,8 @@ void convert(char *filename)
       fprintf(outfile, "Sex : %d\n", (int)player.sex); 
     if (player.chclass != PFDEF_CLASS)
       fprintf(outfile, "Clas: %d\n", (int)player.chclass); 
+    if (player.race != PFDEF_RACE)
+      fprintf(outfile, "Race: %d\n", (int)player.race);
     if (player.level != PFDEF_LEVEL)
       fprintf(outfile, "Levl: %d\n", (int)player.level); 
     fprintf(outfile, "Brth: %d\n", (int)player.birth);

@@ -68,6 +68,7 @@ char *strfrmt(char *str, int w, int h, int justify, int hpad, int vpad);
 char *strpaste(char *str1, char *str2, char *joiner);
 void new_affect(struct affected_type *af);
 int get_class_by_name(char *classname);
+int get_race_by_name(char *racename);
 char * convert_from_tabs(char * string);
 int count_non_protocol_chars(char * str);
 
@@ -485,6 +486,8 @@ do                                                              \
 
 /** Class of ch. */
 #define GET_CLASS(ch)   ((ch)->player.chclass)
+/** Race of ch.  */
+#define GET_RACE(ch)	((ch)->player.race)
 /** Height of ch. */
 #define GET_HEIGHT(ch)	((ch)->player.height)
 /** Weight of ch. */
@@ -863,6 +866,19 @@ do                                                              \
 /** 1 if ch is soldier class, 0 if not. */
 #define IS_SOLDIER(ch)		(!IS_NPC(ch) && \
         (GET_CLASS(ch) == CLASS_SOLDIER))
+
+/* Return the Race abbreviation for cha. */
+#define RACE_ABBR(ch) (IS_NPC(ch) ? "--" : race_abbrevs[(int)GET_RACE(ch)])
+
+/* 1 if ch is human race, 0 if not */
+#define IS_HUMAN(ch)            (!IS_NPC(ch) && \
+        (GET_RACE(ch) == RACE_HUMAN))
+/* 1 if ch is mutant race, 0 if not */
+#define IS_MUTANT(ch)            (!IS_NPC(ch) && \
+        (GET_RACE(ch) == RACE_MUTANT))
+/* 1 if ch is zombie race, 0 if not */
+#define IS_ZOMBIE(ch)            (!IS_NPC(ch) && \
+        (GET_RACE(ch) == RACE_ZOMBIE))
 
 /** Defines if ch is outdoors or not. */
 #define OUTSIDE(ch) (!ROOM_FLAGGED(IN_ROOM(ch), ROOM_INDOORS))

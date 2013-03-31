@@ -39,6 +39,7 @@
 #include "prefedit.h"
 #include "ibt.h"
 #include "mud_event.h"
+#include "race.h"
 
 /* local (file scope) functions */
 static int perform_dupe_check(struct descriptor_data *d);
@@ -1602,6 +1603,17 @@ void nanny(struct descriptor_data *d, char *arg)
       return;
     }
 
+    write_to_output(d, "%s\r\nRace: ", race_menu);
+    STATE(d) = CON_QRACE;
+    break;
+
+  case CON_QRACE:
+    load_result = parse_race(*arg);
+    if (load_result == RACE_UNDEFINED) {
+      write_to_output(d, "\r\nThat's not a race.\r\nRace: ");
+      return;
+    } else
+      GET_RACE(d->character) = load_result;
     write_to_output(d, "%s\r\nClass: ", class_menu);
     STATE(d) = CON_QCLASS;
     break;
