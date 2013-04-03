@@ -372,6 +372,8 @@ do                                                              \
 /** Room flags.
  * @param loc The real room number. */
 #define ROOM_FLAGS(loc)	(world[(loc)].room_flags)
+/** Multi flags */
+#define MULTI_FLAGS(ch) ((ch)->player_specials->saved.multi_flags)
 /** Zone flags.
  * @param rnum The real zone number. */
 #define ZONE_FLAGS(rnum)       (zone_table[(rnum)].zone_flags)
@@ -405,6 +407,8 @@ do                                                              \
 #define PRF_FLAGGED(ch, flag) (IS_SET_AR(PRF_FLAGS(ch), (flag)))
 /** 1 if flag is set in the room of loc, 0 if not. */
 #define ROOM_FLAGGED(loc, flag) (IS_SET_AR(ROOM_FLAGS(loc), (flag)))
+/** 1 if flag is set for ch, 0 if not. */
+#define MULTI_FLAGGED(ch, flag) (IS_SET(MULTI_FLAGS(ch), (flag)))
 /** 1 if flag is set in the zone of rnum, 0 if not. */
 #define ZONE_FLAGGED(rnum, flag)   (IS_SET_AR(zone_table[(rnum)].zone_flags, (flag)))
 /** 1 if flag is set in the exit, 0 if not. */
@@ -473,6 +477,8 @@ do                                                              \
 #define GET_TITLE(ch)   ((ch)->player.title)
 /** Level of PC or NPC. */
 #define GET_LEVEL(ch)   ((ch)->player.level)
+/** Total Level of PC, for use with Multiclassing */
+#define GET_TOT_LEVEL(ch) ((ch)->player_specials->saved.total_level)
 /** Password of PC. */
 #define GET_PASSWD(ch)	((ch)->player.passwd)
 /** The player file position of PC. */

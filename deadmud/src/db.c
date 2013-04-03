@@ -3440,6 +3440,7 @@ void init_char(struct char_data *ch)
   /* If this is our first player make him IMPL. */
   if (top_of_p_table == 0) {
     GET_LEVEL(ch) = LVL_IMPL;
+    GET_TOT_LEVEL(ch) = (NUM_CLASSES * 50) + (LVL_IMPL - (LVL_IMMORT - 1));
     GET_EXP(ch) = 7000000;
 
     /* The implementor never goes through do_start(). */

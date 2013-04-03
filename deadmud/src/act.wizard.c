@@ -1499,6 +1499,7 @@ ACMD(do_advance)
   if (newlevel < GET_LEVEL(victim)) {
     do_start(victim);
     GET_LEVEL(victim) = newlevel;
+    GET_TOT_LEVEL(victim) -= (oldlevel - newlevel);
     send_to_char(victim, "You are momentarily enveloped by darkness!\r\nYou feel somewhat diminished.\r\n");
   } else {
     act("$n makes some strange gestures. A strange feeling comes upon you,\r\n"

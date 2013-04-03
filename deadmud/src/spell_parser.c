@@ -496,6 +496,7 @@ ACMD(do_cast)
   struct obj_data *tobj = NULL;
   char *s, *t;
   int number, mana, spellnum, i, target = 0;
+  int class = 0;
 
   if (IS_NPC(ch))
     return;
@@ -530,6 +531,14 @@ ACMD(do_cast)
   if (GET_SKILL(ch, spellnum) == 0) {
     send_to_char(ch, "You are unfamiliar with that spell.\r\n");
     return;
+  }
+  if (GET_SKILL(ch, spellnum)) {
+    for (class = 0; class < NUM_CLASSES; class++) {
+      if (GET_LEVEL(ch) < SINFO.min_level[class]) {
+  	send_to_char(ch, "Your level is not sufficient to do that right now!\r\n");
+        return;
+      }
+    }
   }
   /* Find the target */
   if (t != NULL) {

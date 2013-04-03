@@ -8,6 +8,8 @@ CHANGED:
 
 * Base Classes: Bandit (Thief), Biotic (Mage), Medic (Cleric), Soldier (Warrior) - (03/31/13)
 
+* Added a multiclassing system!!!
+
 TO-DO:
 -----------------------------------------------
 * Edit Skills/Spells to match level and class changes
@@ -22,9 +24,10 @@ TO-DO:
 
 * Fix casting, make it so you don't need quotes
 
+* Put in Hero Classes and set last multi to choose a hero class
+
 IDEAS:
 -----------------------------------------------
 * Hero Classes: Thug, Scientist, Doctor, Marine
 
-* Re-mort system, 3 base classes, 1 hero class for total level of 200.
 

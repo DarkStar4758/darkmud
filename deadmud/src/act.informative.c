@@ -835,8 +835,8 @@ ACMD(do_score)
      playing_time.day, playing_time.day == 1 ? "" : "s",
      playing_time.hours, playing_time.hours == 1 ? "" : "s");
 
-  send_to_char(ch, "This ranks you as %s %s (level %d).\r\n",
-	  GET_NAME(ch), GET_TITLE(ch), GET_LEVEL(ch));
+  send_to_char(ch, "This ranks you as %s %s (Level %d, Total Level %d).\r\n",
+	  GET_NAME(ch), GET_TITLE(ch), GET_LEVEL(ch), GET_TOT_LEVEL(ch));
 
   switch (GET_POS(ch)) {
   case POS_DEAD:
@@ -1268,15 +1268,15 @@ ACMD(do_who)
         continue;
 
       if (short_list) {
-        send_to_char(ch, "%s[%2d %s %s] %-12.12s%s%s",
+        send_to_char(ch, "%s[%3d/%2d %s %s] %-12.12s%s%s",
           (GET_LEVEL(tch) >= LVL_IMMORT ? CCYEL(ch, C_SPR) : ""),
-          GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch), GET_NAME(tch),
+          GET_TOT_LEVEL(tch), GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch), GET_NAME(tch),
           CCNRM(ch, C_SPR), ((!(++num_can_see % 4)) ? "\r\n" : ""));
       } else {
         num_can_see++;
-        send_to_char(ch, "%s[%2d %s %s] %s%s%s%s",
+        send_to_char(ch, "%s[%3d/%2d %s %s] %s%s%s%s",
             (GET_LEVEL(tch) >= LVL_IMMORT ? CCYEL(ch, C_SPR) : ""),
-            GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch),
+            GET_TOT_LEVEL(tch), GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch),
             GET_NAME(tch), (*GET_TITLE(tch) ? " " : ""), GET_TITLE(tch),
             CCNRM(ch, C_SPR));
         

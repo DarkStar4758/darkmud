@@ -213,6 +213,7 @@ cpp_extern const struct command_info cmd_info[] = {
   { "mlist"    , "mlist"   , POS_DEAD    , do_oasis_list, LVL_BUILDER, SCMD_OASIS_MLIST },
   { "mcopy"    , "mcopy"   , POS_DEAD    , do_oasis_copy, LVL_GOD, CON_MEDIT },
   { "msgedit"  , "msgedit" , POS_DEAD    , do_msgedit,   LVL_GOD, 0 },
+  { "multi"    , "multi"   , POS_STANDING, do_multi    , 1, 0 },
   { "mute"     , "mute"    , POS_DEAD    , do_wizutil  , LVL_GOD, SCMD_MUTE },
 
   { "news"     , "news"    , POS_SLEEPING, do_gen_ps   , 0, SCMD_NEWS },
@@ -1634,6 +1635,7 @@ void nanny(struct descriptor_data *d, char *arg)
       GET_PFILEPOS(d->character) = create_entry(GET_PC_NAME(d->character));
     /* Now GET_NAME() will work properly. */
     init_char(d->character);
+    SET_BIT(MULTI_FLAGS(d->character), (1 << (int)GET_CLASS(d->character)));
     save_char(d->character);
     save_player_index();
     write_to_output(d, "%s\r\n*** PRESS RETURN: ", motd);
