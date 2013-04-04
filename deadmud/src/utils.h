@@ -860,9 +860,9 @@ do                                                              \
 /** Return the class abbreviation for ch. */
 #define CLASS_ABBR(ch) (IS_NPC(ch) ? "--" : class_abbrevs[(int)GET_CLASS(ch)])
 
-/** 1 if ch is biotic class, 0 if not. */
-#define IS_BIOTIC(ch)	(!IS_NPC(ch) && \
-        (GET_CLASS(ch) == CLASS_BIOTIC))
+/** 1 if ch is adept class, 0 if not. */
+#define IS_ADEPT(ch)	(!IS_NPC(ch) && \
+        (GET_CLASS(ch) == CLASS_ADEPT))
 /** 1 if ch is medic class, 0 if not. */
 #define IS_MEDIC(ch)		(!IS_NPC(ch) && \
         (GET_CLASS(ch) == CLASS_MEDIC))

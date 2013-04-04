@@ -445,7 +445,7 @@ const char *extra_bits[] = {
   "ANTI_GOOD",
   "ANTI_EVIL",
   "ANTI_NEUTRAL",
-  "ANTI_BIOTIC",
+  "ANTI_ADEPT",
   "ANTI_MEDIC",
   "ANTI_BANDIT",
   "ANTI_SOLDIER",

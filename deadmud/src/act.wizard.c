@@ -2710,7 +2710,7 @@ ACMD(do_show)
 
     for (j = 1; j < LVL_IMMORT; j++) {
       nlen = snprintf(buf + len, sizeof(buf) - len,  "%-3d - %-2d %-2d %-2d %-2d\r\n", j, 
-				thaco(CLASS_BIOTIC, j),
+				thaco(CLASS_ADEPT, j),
 				thaco(CLASS_MEDIC, j),
 				thaco(CLASS_BANDIT, j),
 				thaco(CLASS_SOLDIER, j));
@@ -2728,7 +2728,7 @@ ACMD(do_show)
 
     for (i = 1; i < LVL_IMMORT; i++) { 
       nlen = snprintf(buf + len, sizeof(buf) - len,  "%-3d - %-6d %-6d %-6d %-6d\r\n", i,  
-				level_exp(CLASS_BIOTIC, i) - level_exp(CLASS_BIOTIC, i - 1),
+				level_exp(CLASS_ADEPT, i) - level_exp(CLASS_ADEPT, i - 1),
 				level_exp(CLASS_MEDIC, i) - level_exp(CLASS_MEDIC, i - 1),
 				level_exp(CLASS_BANDIT, i) - level_exp(CLASS_BANDIT, i - 1),
 				level_exp(CLASS_SOLDIER, i) - level_exp(CLASS_SOLDIER, i - 1));

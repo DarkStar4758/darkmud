@@ -6,7 +6,7 @@ CHANGED:
 
 * Added Races: Human, Mutant, Zombie - (03/31/13)
 
-* Base Classes: Bandit (Thief), Biotic (Mage), Medic (Cleric), Soldier (Warrior) - (03/31/13)
+* Base Classes: Bandit (Thief), Adept (Mage), Medic (Cleric), Soldier (Warrior) - (03/31/13)
 
 * Added a multiclassing system!!!
 
@@ -26,8 +26,33 @@ TO-DO:
 
 * Put in Hero Classes and set last multi to choose a hero class
 
+* Fix do_who and do_score
+
 IDEAS:
 -----------------------------------------------
-* Hero Classes: Thug, Scientist, Doctor, Marine
+* Hero Classes: Thug, Elemental, Doctor, Marine
 
 
+
+* Base Class Skills/Spells:
+-----------------------------------------------
+Bandit:
+-----------------------------------------------
+Adept:
+-----------------------------------------------
+Medic:
+-----------------------------------------------
+Soldier:
+-----------------------------------------------
+
+
+* Hero Class Skills/Spells:
+-----------------------------------------------
+Thug:
+-----------------------------------------------
+Doctor:
+-----------------------------------------------
+Marine:
+-----------------------------------------------
+Biotic:
+-----------------------------------------------

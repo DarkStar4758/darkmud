@@ -155,9 +155,9 @@
 
 /* PC classes */
 #define CLASS_UNDEFINED	  (-1) /**< PC Class undefined */
-#define CLASS_BIOTIC  0    /**< PC Class Biotic */
-#define CLASS_MEDIC      1    /**< PC Class Medic */
-#define CLASS_BANDIT       2    /**< PC Class Bandit */
+#define CLASS_ADEPT       0    /**< PC Class Adept */
+#define CLASS_MEDIC       1    /**< PC Class Medic */
+#define CLASS_BANDIT      2    /**< PC Class Bandit */
 #define CLASS_SOLDIER     3    /**< PC Class Soldier */
 /** Total number of available PC Classes */
 #define NUM_CLASSES	  4
@@ -437,7 +437,7 @@
 #define ITEM_ANTI_GOOD         9   /**< Not usable by good people	*/
 #define ITEM_ANTI_EVIL        10   /**< Not usable by evil people	*/
 #define ITEM_ANTI_NEUTRAL     11   /**< Not usable by neutral people */
-#define ITEM_ANTI_BIOTIC      12   /**< Not usable by biotics */
+#define ITEM_ANTI_ADEPT       12   /**< Not usable by adepts */
 #define ITEM_ANTI_MEDIC       13   /**< Not usable by medicss */
 #define ITEM_ANTI_BANDIT      14   /**< Not usable by banditss */
 #define ITEM_ANTI_SOLDIER     15   /**< Not usable by soldiers */

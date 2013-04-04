@@ -35,7 +35,7 @@ const char *trade_letters[] = {
         "Good",                 /* First, the alignment based ones */
         "Evil",
         "Neutral",
-        "Biotic",           /* Then the class based ones */
+        "Adept",           /* Then the class based ones */
         "Medic",
         "Bandit",
         "Soldier",
@@ -141,7 +141,7 @@ static int is_ok_char(struct char_data *keeper, struct char_data *ch, int shop_n
   }
   return (TRUE);  
 
-  if ((IS_BIOTIC(ch) && NOTRADE_BIOTIC(shop_nr)) ||
+  if ((IS_ADEPT(ch) && NOTRADE_ADEPT(shop_nr)) ||
       (IS_MEDIC(ch) && NOTRADE_MEDIC(shop_nr)) ||
       (IS_BANDIT(ch) && NOTRADE_BANDIT(shop_nr)) ||
       (IS_SOLDIER(ch) && NOTRADE_SOLDIER(shop_nr))) {

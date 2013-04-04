@@ -29,7 +29,7 @@
 
 /* Names first */
 const char *class_abbrevs[] = {
-  "Bi",
+  "Ad",
   "Me",
   "Ba",
   "So",
@@ -37,7 +37,7 @@ const char *class_abbrevs[] = {
 };
 
 const char *pc_class_types[] = {
-  "Biotic",
+  "Adept",
   "Medic",
   "Bandit",
   "Soldierr",
@@ -53,7 +53,7 @@ const char *class_menu =
 "| A) Medic         |\r\n"
 "| B) Bandit        |\r\n"
 "| C) Soldier       |\r\n"
-"| D) Biotic        |\r\n"
+"| D) Adept         |\r\n"
 "+------------------|\r\n";
 
 /* The code to interpret a class letter -- used in interpreter.c when a new
@@ -66,7 +66,7 @@ int parse_class(char arg)
   case 'a': return CLASS_MEDIC;
   case 'b': return CLASS_BANDIT;
   case 'c': return CLASS_SOLDIER;
-  case 'd': return CLASS_BIOTIC;
+  case 'd': return CLASS_ADEPT;
   default:  return CLASS_UNDEFINED;
   }
 }
@@ -130,7 +130,7 @@ int prac_params[4][NUM_CLASSES] = {
 struct guild_info_type guild_info[] = {
 
 /* Midgaard */
- { CLASS_BIOTIC,        3017,    SOUTH   },
+ { CLASS_ADEPT,         3017,    SOUTH   },
  { CLASS_MEDIC,         3004,    NORTH   },
  { CLASS_BANDIT,        3027,    EAST   },
  { CLASS_SOLDIER,       3021,    EAST   },
@@ -146,7 +146,7 @@ struct guild_info_type guild_info[] = {
 byte saving_throws(int class_num, int type, int level)
 {
 switch (class_num) {
-case CLASS_BIOTIC:
+case CLASS_ADEPT:
 switch (type) {
 case SAVING_PARA:
 /* Paralyzation */
@@ -353,7 +353,7 @@ return 100;
 int thaco(int class_num, int level)
 {
 switch (class_num) {
-case CLASS_BIOTIC:
+case CLASS_ADEPT:
 if (level == 0)
 return 100;
 if (level >= LVL_IMMORT)
@@ -429,7 +429,7 @@ void roll_real_abils(struct char_data *ch)
   ch->real_abils.str_add = 0;
 
   switch (GET_CLASS(ch)) {
-  case CLASS_BIOTIC:
+  case CLASS_ADEPT:
     ch->real_abils.intel = table[0];
     ch->real_abils.wis = table[1];
     ch->real_abils.dex = table[2];
@@ -483,7 +483,7 @@ void do_start(struct char_data *ch)
 
   switch (GET_CLASS(ch)) {
 
-  case CLASS_BIOTIC:
+  case CLASS_ADEPT:
     break;
 
   case CLASS_MEDIC:
@@ -526,7 +526,7 @@ void advance_level(struct char_data *ch)
 
   switch (GET_CLASS(ch)) {
 
-  case CLASS_BIOTIC:
+  case CLASS_ADEPT:
     add_hp += rand_number(3, 8);
     add_mana = rand_number(GET_LEVEL(ch), (int)(1.5 * GET_LEVEL(ch)));
     add_mana = MIN(add_mana, 10);
@@ -559,7 +559,7 @@ void advance_level(struct char_data *ch)
   if (GET_LEVEL(ch) > 1)
     ch->points.max_mana += add_mana;
 
-  if (IS_BIOTIC(ch) || IS_MEDIC(ch))
+  if (IS_ADEPT(ch) || IS_MEDIC(ch))
     GET_PRACTICES(ch) += MAX(2, wis_app[GET_WIS(ch)].bonus);
   else
     GET_PRACTICES(ch) += MIN(2, MAX(1, wis_app[GET_WIS(ch)].bonus));
@@ -598,7 +598,7 @@ int backstab_mult(int level)
  * usable by a particular class, based on the ITEM_ANTI_{class} bitvectors. */
 int invalid_class(struct char_data *ch, struct obj_data *obj)
 {
-  if (OBJ_FLAGGED(obj, ITEM_ANTI_BIOTIC) && IS_BIOTIC(ch))
+  if (OBJ_FLAGGED(obj, ITEM_ANTI_ADEPT) && IS_ADEPT(ch))
     return TRUE;
 
   if (OBJ_FLAGGED(obj, ITEM_ANTI_MEDIC) && IS_MEDIC(ch))
@@ -618,32 +618,32 @@ int invalid_class(struct char_data *ch, struct obj_data *obj)
  * skill. */
 void init_spell_levels(void)
 {
-  /* BIOTICS */
-  spell_level(SPELL_MAGIC_MISSILE, CLASS_BIOTIC, 1);
-  spell_level(SPELL_DETECT_INVIS, CLASS_BIOTIC, 2);
-  spell_level(SPELL_DETECT_MAGIC, CLASS_BIOTIC, 2);
-  spell_level(SPELL_CHILL_TOUCH, CLASS_BIOTIC, 3);
-  spell_level(SPELL_INFRAVISION, CLASS_BIOTIC, 3);
-  spell_level(SPELL_INVISIBLE, CLASS_BIOTIC, 4);
-  spell_level(SPELL_ARMOR, CLASS_BIOTIC, 4);
-  spell_level(SPELL_BURNING_HANDS, CLASS_BIOTIC, 5);
-  spell_level(SPELL_LOCATE_OBJECT, CLASS_BIOTIC, 6);
-  spell_level(SPELL_STRENGTH, CLASS_BIOTIC, 6);
-  spell_level(SPELL_SHOCKING_GRASP, CLASS_BIOTIC, 7);
-  spell_level(SPELL_SLEEP, CLASS_BIOTIC, 8);
-  spell_level(SPELL_LIGHTNING_BOLT, CLASS_BIOTIC, 9);
-  spell_level(SPELL_BLINDNESS, CLASS_BIOTIC, 9);
-  spell_level(SPELL_DETECT_POISON, CLASS_BIOTIC, 10);
-  spell_level(SPELL_COLOR_SPRAY, CLASS_BIOTIC, 11);
-  spell_level(SPELL_ENERGY_DRAIN, CLASS_BIOTIC, 13);
-  spell_level(SPELL_CURSE, CLASS_BIOTIC, 14);
-  spell_level(SPELL_POISON, CLASS_BIOTIC, 14);
-  spell_level(SPELL_FIREBALL, CLASS_BIOTIC, 15);
-  spell_level(SPELL_CHARM, CLASS_BIOTIC, 16);
-  spell_level(SPELL_IDENTIFY, CLASS_BIOTIC, 20);
-  spell_level(SPELL_FLY, CLASS_BIOTIC, 22);
-  spell_level(SPELL_ENCHANT_WEAPON, CLASS_BIOTIC, 26);
-  spell_level(SPELL_CLONE, CLASS_BIOTIC, 30);
+  /* ADEPTS */
+  spell_level(SPELL_MAGIC_MISSILE, CLASS_ADEPT, 1);
+  spell_level(SPELL_DETECT_INVIS, CLASS_ADEPT, 2);
+  spell_level(SPELL_DETECT_MAGIC, CLASS_ADEPT, 2);
+  spell_level(SPELL_CHILL_TOUCH, CLASS_ADEPT, 3);
+  spell_level(SPELL_INFRAVISION, CLASS_ADEPT, 3);
+  spell_level(SPELL_INVISIBLE, CLASS_ADEPT, 4);
+  spell_level(SPELL_ARMOR, CLASS_ADEPT, 4);
+  spell_level(SPELL_BURNING_HANDS, CLASS_ADEPT, 5);
+  spell_level(SPELL_LOCATE_OBJECT, CLASS_ADEPT, 6);
+  spell_level(SPELL_STRENGTH, CLASS_ADEPT, 6);
+  spell_level(SPELL_SHOCKING_GRASP, CLASS_ADEPT, 7);
+  spell_level(SPELL_SLEEP, CLASS_ADEPT, 8);
+  spell_level(SPELL_LIGHTNING_BOLT, CLASS_ADEPT, 9);
+  spell_level(SPELL_BLINDNESS, CLASS_ADEPT, 9);
+  spell_level(SPELL_DETECT_POISON, CLASS_ADEPT, 10);
+  spell_level(SPELL_COLOR_SPRAY, CLASS_ADEPT, 11);
+  spell_level(SPELL_ENERGY_DRAIN, CLASS_ADEPT, 13);
+  spell_level(SPELL_CURSE, CLASS_ADEPT, 14);
+  spell_level(SPELL_POISON, CLASS_ADEPT, 14);
+  spell_level(SPELL_FIREBALL, CLASS_ADEPT, 15);
+  spell_level(SPELL_CHARM, CLASS_ADEPT, 16);
+  spell_level(SPELL_IDENTIFY, CLASS_ADEPT, 20);
+  spell_level(SPELL_FLY, CLASS_ADEPT, 22);
+  spell_level(SPELL_ENCHANT_WEAPON, CLASS_ADEPT, 26);
+  spell_level(SPELL_CLONE, CLASS_ADEPT, 30);
 
   /* MEDICS */
   spell_level(SPELL_CURE_LIGHT, CLASS_MEDIC, 1);
@@ -707,7 +707,7 @@ int level_exp(int chclass, int level)
    /* always declare variables */
    switch (chclass) {
 	
-		case CLASS_BIOTIC:
+		case CLASS_ADEPT:
 		mod = 45;
 			return ((level * mod)*(level * mod));
 		break;
@@ -755,7 +755,7 @@ const char *title_male(int chclass, int level)
 
   switch (chclass) {
 
-    case CLASS_BIOTIC:
+    case CLASS_ADEPT:
     switch (level) {
       case  1: return "the Apprentice of Magic";
       case  2: return "the Spell Student";
@@ -919,7 +919,7 @@ const char *title_female(int chclass, int level)
 
   switch (chclass) {
 
-    case CLASS_BIOTIC:
+    case CLASS_ADEPT:
     switch (level) {
       case  1: return "the Apprentice of Magic";
       case  2: return "the Spell Student";
