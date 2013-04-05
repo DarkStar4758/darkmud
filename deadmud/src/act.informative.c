@@ -792,140 +792,220 @@ ACMD(do_gold)
 }
 
 ACMD(do_score)
+
 {
   struct time_info_data playing_time;
-
+  
+    
   if (IS_NPC(ch))
     return;
+  send_to_char(ch, "\r\n");
+  send_to_char(ch, "\tBName:\tn  %s", GET_NAME(ch));
+  send_to_char(ch, "     \tBLevel:\tn %3d/%2d", GET_TOT_LEVEL(ch), GET_LEVEL(ch));
+  send_to_char(ch, "     \tBTitle:\tn %s\r\n", GET_TITLE(ch));
 
-  send_to_char(ch, "You are %d years old.", GET_AGE(ch));
+   /* switch to set race in title */
+  switch (GET_RACE(ch)) {
+     case RACE_HUMAN:  send_to_char(ch, "\tBRace:\tn  Human        "); break;
+     case RACE_MUTANT: send_to_char(ch, "\tBRace:\tn  Mutant       "); break;
+     case RACE_ZOMBIE: send_to_char(ch, "\tBRace:\tn  Zombie       "); break;
+     default:  send_to_char(ch, "Race: Undefined.\r\n"); break;
+}
+   /* switch to set class in title */
+  switch (GET_CLASS(ch)) {
+     case CLASS_ADEPT:   send_to_char(ch, "\tBClass:\tn Adept      "); break;
+     case CLASS_MEDIC:   send_to_char(ch, "\tBClass:\tn Medic      "); break;
+     case CLASS_SOLDIER: send_to_char(ch, "\tBClass:\tn Soldier    "); break;
+     case CLASS_BANDIT:  send_to_char(ch, "\tBClass:\tn Bandit     "); break;
+     default:  send_to_char(ch, "Class: Undefined.\r\n"); break;
+}
+  send_to_char(ch, "\tBAge:\tn   %d  ", GET_AGE(ch));
+  switch (GET_SEX(ch)) {
+        case SEX_MALE: send_to_char(ch, "\tBSex:\tn   Male\r\n"); break;
+        case SEX_FEMALE: send_to_char(ch, "\tBSex:\tn   Female\r\n"); break;
+        default: send_to_char(ch, "\tBSex:\tn Neutral\r\n"); break;
+  }
 
-  if (age(ch)->month == 0 && age(ch)->day == 0)
-    send_to_char(ch, "  It's your birthday today.\r\n");
-  else
-    send_to_char(ch, "\r\n");
+  playing_time = *real_time_passed((time(0) - ch->player.time.logon) + ch->player.time.played, 0);
+  send_to_char(ch, "\tyYou have been playing for\tn %d \tyday%s and\tn %d \tyhour%s\tn.\r\n",
+     playing_time.day, playing_time.day == 1 ? "" : "s",
+     playing_time.hours, playing_time.hours == 1 ? "" : "s");
+send_to_char(ch, "\tD************************************************************\tn\r\n");
 
-  send_to_char(ch, "You have %d(%d) hit, %d(%d) mana and %d(%d) movement points.\r\n",
-	  GET_HIT(ch), GET_MAX_HIT(ch), GET_MANA(ch), GET_MAX_MANA(ch),
-	  GET_MOVE(ch), GET_MAX_MOVE(ch));
+    /* start alignment score code */
+  if (GET_ALIGNMENT(ch) <= -851 && GET_ALIGNMENT(ch) >= -1000 )
+	      send_to_char(ch,  "\tRYou are Black as Night.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= -701 && GET_ALIGNMENT(ch) >= -850)
+	      send_to_char(ch,  "\trYou are evil.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= -551 && GET_ALIGNMENT(ch) >= -700)
+	      send_to_char(ch,  "\tMYou are extremely bad.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= -401 && GET_ALIGNMENT(ch) >= -550)
+	      send_to_char(ch,  "\tmYou are very bad.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= -251 && GET_ALIGNMENT(ch) >= -400)
+	      send_to_char(ch,  "\tmYou are Bad.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= -101 && GET_ALIGNMENT(ch) >= -250)
+	      send_to_char(ch,  "\tWYou are Barely Neutral to Bad.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 100 && GET_ALIGNMENT(ch) >= -100)
+	      send_to_char(ch,  "\tWYou are Neutral.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 250 && GET_ALIGNMENT(ch) >= 101)
+	      send_to_char(ch,  "\tWYou are Barely Neutral to Good.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 400 && GET_ALIGNMENT(ch) >= 251)
+	      send_to_char(ch,  "\tbYou are Good.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 550 && GET_ALIGNMENT(ch) >= 401)
+	      send_to_char(ch,  "\tbYou are very good.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 700 && GET_ALIGNMENT(ch) >= 551)
+	      send_to_char(ch,  "\tBYou are extremely good.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 850 && GET_ALIGNMENT(ch) >= 701)
+	      send_to_char(ch,  "\tcYou are innocent.\tn\r\n");
+  if (GET_ALIGNMENT(ch) <= 1000 && GET_ALIGNMENT(ch) >= 851)
+	      send_to_char(ch,  "\tCYou are Pure of Heart.\tn\r\n");
+  if (compute_armor_class(ch) <= -86 && compute_armor_class(ch) >= -100 )
+	      send_to_char(ch, "You are indestructible\r\n");
+  if (compute_armor_class(ch) <= -71 && compute_armor_class(ch) >= -85)
+	      send_to_char(ch,  "You are armored like heavy battle tank.\r\n");
+  if (compute_armor_class(ch) <= -56 && compute_armor_class(ch) >= -70)
+	      send_to_char(ch,  "You are armored like a heavy tank..\r\n");
+  if (compute_armor_class(ch) <= -41 && compute_armor_class(ch) >= -55)
+	      send_to_char(ch,  "You are armored like a tank.\r\n");
+  if (compute_armor_class(ch) <= -26 && compute_armor_class(ch) >= -40)
+	      send_to_char(ch,  "You are Bad\r\n");
+  if (compute_armor_class(ch) <= -11 && compute_armor_class(ch) >= -25)
+	      send_to_char(ch,  "You are very heavily armored.\r\n");
+   /* end of alignment score code */
 
-  send_to_char(ch, "Your armor class is %d/10, and your alignment is %d.\r\n",
-	  compute_armor_class(ch), GET_ALIGNMENT(ch));
+    /* start armor class score code */
+  if (compute_armor_class(ch) <= -1 && compute_armor_class(ch) >= -10)
+	      send_to_char(ch,  "\tRYou are heavily armored.\tn\r\n");
+  if (compute_armor_class(ch) <= 10 && compute_armor_class(ch) >= 0)
+	      send_to_char(ch,  "\trYou are very armored.\tn\r\n");
+  if (compute_armor_class(ch) <= 25 && compute_armor_class(ch) >= 11)
+	      send_to_char(ch,  "\tYYou are armored.\tn\r\n");
+  if (compute_armor_class(ch) <= 40 && compute_armor_class(ch) >= 26)
+	      send_to_char(ch,  "\tyYou are barley armored.\tn\r\n");
+  if (compute_armor_class(ch) <= 55 && compute_armor_class(ch) >= 41)
+	      send_to_char(ch,  "\tBYou are fully clothed.\tn\r\n");
+  if (compute_armor_class(ch) <= 70 && compute_armor_class(ch) >= 56)
+	      send_to_char(ch,  "\tbYou are clothed.\tn\r\n");
+  if (compute_armor_class(ch) <= 85 && compute_armor_class(ch) >= 71)
+	      send_to_char(ch,  "\tWYou are barely clothed.\tn\r\n");
+  if (compute_armor_class(ch) <= 100 && compute_armor_class(ch) >= 86)
+	      send_to_char(ch,  "\tWYou are Naked.\tn\r\n");
+    /* End of armor class score code */
 
-  send_to_char(ch, "You have %d exp, %d gold coins, and %d questpoints.\r\n",
-	  GET_EXP(ch), GET_GOLD(ch), GET_QUESTPOINTS(ch));
+send_to_char(ch, "\tD************************************************************\tn\r\n");
+  send_to_char(ch, "\tBStr:\tn %d\tB/\tn%d\r\n", GET_STR(ch), GET_ADD(ch));
+  send_to_char(ch, "\tBInt:\tn %d", GET_INT(ch));
+  send_to_char(ch, "               \tBLife:\tn %d(%d)  \tY--->\tn \tBLife Regen:\tn %d\r\n", GET_HIT(ch), GET_MAX_HIT(ch), hit_gain(ch));
 
-  if (GET_LEVEL(ch) < LVL_IMMORT)
-    send_to_char(ch, "You need %d exp to reach your next level.\r\n",
-	level_exp(GET_CLASS(ch), GET_LEVEL(ch) + 1) - GET_EXP(ch));
+  send_to_char(ch, "\tBWis:\tn %d", GET_WIS(ch));
+  send_to_char(ch, "               \tBPower:\tn %d\tB(\tn%d\tB)\tn \tY--->\tn \tBPower Regen:\tn %d\r\n",  GET_MANA(ch), GET_MAX_MANA(ch), mana_gain(ch));
 
-  send_to_char(ch, "You have earned %d quest points.\r\n", GET_QUESTPOINTS(ch));
-  send_to_char(ch, "You have completed %d quest%s, ",
+  send_to_char(ch, "\tBCon:\tn %d", GET_CON(ch));
+  send_to_char(ch, "               \tBMove:\tn %d\tB(\tn%d\tB)\tn    \tY--->\tn \tBMove Regen:\tn %d\r\n", GET_MOVE(ch), GET_MAX_MOVE(ch), move_gain(ch));
+
+  send_to_char(ch, "\tBDex:\tn %d", GET_DEX(ch));
+  send_to_char(ch, "               \tBHitroll:\tn %d\r\n", (GET_HITROLL(ch)));
+
+  send_to_char(ch, "\tBCha:\tn %d", GET_CHA(ch));
+  send_to_char(ch, "               \tBDamroll:\tn %d\r\n", (GET_DAMROLL(ch)));
+     
+  send_to_char(ch, "\tD************************************************************\tn\r\n");
+send_to_char(ch, "\tBEXP Gained:\tn %d\r\n", GET_EXP(ch));
+if (GET_LEVEL(ch) < LVL_IMMORT)
+send_to_char(ch, "\tYYou need\tn %d \tYexp to reach your next level.\tn\r\n", level_exp(GET_CLASS(ch), GET_LEVEL(ch) + 1) - GET_EXP(ch));
+send_to_char(ch, "\tBGold:\tn %d\r\n", GET_GOLD(ch));  
+send_to_char(ch, "\tD************************************************************\tn\r\n");
+send_to_char(ch, "\tBQuestpoints:\tn %d\r\n", GET_QUESTPOINTS(ch));
+send_to_char(ch, "\tBYou have completed\tn %d \tBquest%s,\tn ",
        GET_NUM_QUESTS(ch),
        GET_NUM_QUESTS(ch) == 1 ? "" : "s");
   if (GET_QUEST(ch) == NOTHING)
-    send_to_char(ch, "and you are not on a quest at the moment.\r\n");
+    send_to_char(ch, "\tBand you are not on a quest at the moment.\tn\r\n");
   else
-    send_to_char(ch, "and your current quest is %d.\r\n",
-                     GET_QUEST(ch) == NOTHING ? -1 : GET_QUEST(ch));
+    send_to_char(ch, "\tBand your current quest is\tn %d\tB.\tn           \r\n",
+                     GET_QUEST(ch) == NOTHING ? -1 : GET_QUEST(ch));    
+    
+send_to_char(ch, "\tD************************************************************\tn\r\n");
 
-  playing_time = *real_time_passed((time(0) - ch->player.time.logon) +
-				  ch->player.time.played, 0);
-  send_to_char(ch, "You have been playing for %d day%s and %d hour%s.\r\n",
-     playing_time.day, playing_time.day == 1 ? "" : "s",
-     playing_time.hours, playing_time.hours == 1 ? "" : "s");
-
-  send_to_char(ch, "This ranks you as %s %s (Level %d, Total Level %d).\r\n",
-	  GET_NAME(ch), GET_TITLE(ch), GET_LEVEL(ch), GET_TOT_LEVEL(ch));
-
+ send_to_char(ch, "\tBAffections:\tn\r\n");
+    
+  
+    
+    
+  
   switch (GET_POS(ch)) {
   case POS_DEAD:
-    send_to_char(ch, "You are DEAD!\r\n");
+    send_to_char(ch, "\tRYou are DEAD!\tn\r\n");
     break;
   case POS_MORTALLYW:
-    send_to_char(ch, "You are mortally wounded!  You should seek help!\r\n");
+    send_to_char(ch, "\tMYou are mortally wounded!  You should seek help!\tn\r\n");
     break;
   case POS_INCAP:
-    send_to_char(ch, "You are incapacitated, slowly fading away...\r\n");
+    send_to_char(ch, "\tmYou are incapacitated, slowly fading away...\tn\r\n");
     break;
   case POS_STUNNED:
-    send_to_char(ch, "You are stunned!  You can't move!\r\n");
+    send_to_char(ch, "\tYYou are stunned!  You can't move!\tn\r\n");
     break;
   case POS_SLEEPING:
-    send_to_char(ch, "You are sleeping.\r\n");
+    send_to_char(ch, "\tDYou are sleeping.\tn\r\n");
     break;
   case POS_RESTING:
-    send_to_char(ch, "You are resting.\r\n");
+    send_to_char(ch, "\tYYou are resting.\tn\r\n");
     break;
   case POS_SITTING:
-    if (!SITTING(ch))
-      send_to_char(ch, "You are sitting.\r\n");
-    else {
-      struct obj_data *furniture = SITTING(ch);
-      send_to_char(ch, "You are sitting upon %s.\r\n", furniture->short_description);
-    }
+    send_to_char(ch, "\tyYou are sitting.\tn\r\n");
     break;
   case POS_FIGHTING:
-    send_to_char(ch, "You are fighting %s.\r\n", FIGHTING(ch) ? PERS(FIGHTING(ch), ch) : "thin air");
+    send_to_char(ch, "\trYou are fighting\tn %s\tr.\tn\r\n", FIGHTING(ch) ? PERS(FIGHTING(ch), ch) : "thin air");
     break;
   case POS_STANDING:
-    send_to_char(ch, "You are standing.\r\n");
+    send_to_char(ch, "\tWYou are standing.\tn\r\n");
     break;
   default:
-    send_to_char(ch, "You are floating.\r\n");
+    send_to_char(ch, "\tcYou are floating.\tn\r\n");
     break;
   }
 
-  if (GET_COND(ch, DRUNK) > 10)
-    send_to_char(ch, "You are intoxicated.\r\n");
-
-  if (GET_COND(ch, HUNGER) == 0)
-    send_to_char(ch, "You are hungry.\r\n");
-
+if (GET_COND(ch, DRUNK) > 10)
+    send_to_char(ch, "\tgYou are intoxicated.\tn\r\n");
+    
   if (GET_COND(ch, THIRST) == 0)
-    send_to_char(ch, "You are thirsty.\r\n");
-
-  if (AFF_FLAGGED(ch, AFF_BLIND) && GET_LEVEL(ch) < LVL_IMMORT)
-    send_to_char(ch, "You have been blinded!\r\n");
+    send_to_char(ch, "\tBYou are thirsty.\tn\r\n");
+  
+    
+  if (AFF_FLAGGED(ch, AFF_BLIND))
+    send_to_char(ch, "\tYYou have been blinded!\tn\r\n");
 
   if (AFF_FLAGGED(ch, AFF_INVISIBLE))
-    send_to_char(ch, "You are invisible.\r\n");
-
+    send_to_char(ch, "\tMYou are invisible.\tn\r\n");  
+    
+    
   if (AFF_FLAGGED(ch, AFF_DETECT_INVIS))
-    send_to_char(ch, "You are sensitive to the presence of invisible things.\r\n");
-
+    send_to_char(ch, "\tmYou are sensitive to the presence of invisible things.\tn\r\n");
+    
+  
   if (AFF_FLAGGED(ch, AFF_SANCTUARY))
-    send_to_char(ch, "You are protected by Sanctuary.\r\n");
-
+    send_to_char(ch, "\tCYou are protected by Sanctuary.\tn\r\n");
+  
+    
   if (AFF_FLAGGED(ch, AFF_POISON))
-    send_to_char(ch, "You are poisoned!\r\n");
+    send_to_char(ch, "\tGYou are poisoned!\tn\r\n");
 
   if (AFF_FLAGGED(ch, AFF_CHARM))
-    send_to_char(ch, "You have been charmed!\r\n");
-
+    send_to_char(ch, "\tyYou have been charmed!\tn\r\n");
+    
+    
   if (affected_by_spell(ch, SPELL_ARMOR))
-    send_to_char(ch, "You feel protected.\r\n");
-
+    send_to_char(ch, "\tbYou feel protected.\tn\r\n");
+    
+  
   if (AFF_FLAGGED(ch, AFF_INFRAVISION))
-    send_to_char(ch, "Your eyes are glowing red.\r\n");
-
+    send_to_char(ch, "\trYour eyes are glowing red.\tn\r\n");
+  
+    
   if (PRF_FLAGGED(ch, PRF_SUMMONABLE))
-    send_to_char(ch, "You are summonable by other players.\r\n");
+    send_to_char(ch, "\tRYou are summonable by other players.\tn\r\n");
 
-  if (GET_LEVEL(ch) >= LVL_IMMORT) {
-    if (POOFIN(ch))
-      send_to_char(ch, "%sPOOFIN:  %s%s %s%s\r\n", QYEL, QCYN, GET_NAME(ch), POOFIN(ch), QNRM);
-    else
-      send_to_char(ch, "%sPOOFIN:  %s%s appears with an ear-splitting bang.%s\r\n", QYEL, QCYN, GET_NAME(ch), QNRM);
-
-    if (POOFOUT(ch))
-      send_to_char(ch, "%sPOOFOUT: %s%s %s%s\r\n", QYEL, QCYN, GET_NAME(ch), POOFOUT(ch), QNRM);
-    else
-      send_to_char(ch, "%sPOOFOUT: %s%s disappears in a puff of smoke.%s\r\n", QYEL, QCYN, GET_NAME(ch), QNRM);
-
-    send_to_char(ch, "Your current zone: %s%d%s\r\n", CCCYN(ch, C_NRM), GET_OLC_ZONE(ch),
- CCNRM(ch, C_NRM));
-  }
 }
 
 ACMD(do_inventory)
