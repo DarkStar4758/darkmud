@@ -372,6 +372,16 @@ do                                                              \
 /** Room flags.
  * @param loc The real room number. */
 #define ROOM_FLAGS(loc)	(world[(loc)].room_flags)
+/** Get PC Class 1 */
+#define GET_CLASS_1(ch) ((ch)->player.class_1)
+/** Get PC Class 2 */
+#define GET_CLASS_2(ch) ((ch)->player.class_2)
+/** Get PC Class 1 */
+#define GET_CLASS_3(ch) ((ch)->player.class_3)
+/** Get PC Class 1 */
+#define GET_CLASS_4(ch) ((ch)->player.class_4)
+/** Get number of times multiclassed */
+#define GET_MULTIS(ch) ((ch)->player_specials->saved.multis)
 /** Multi flags */
 #define MULTI_FLAGS(ch) ((ch)->player_specials->saved.multi_flags)
 /** Zone flags.

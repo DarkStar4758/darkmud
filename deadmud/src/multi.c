@@ -20,7 +20,7 @@ extern char *pc_class_types[];
 /* CUSTOMIZABLE OPTIONS	*/
 
 /* Multi system defines */
-#define MULTI_BIOTIC	 (1 << 0) /* Has multied to magic user */
+#define MULTI_ADEPT	 (1 << 0) /* Has multied to adept      */
 #define MULTI_MEDIC	 (1 << 1) /* Has multied to cleric     */
 #define MULTI_BANDIT	 (1 << 2) /* Has multied to thief      */
 #define MULTI_SOLDIER (1 << 3) /* Has multied to warrior    */
@@ -46,7 +46,7 @@ struct multi_classes {
   char *name;
   int flag;
 } multi_class[] = {
-  { "biotic"	, MULTI_BIOTIC	},
+  { "adept"	, MULTI_ADEPT	},
   { "medic"	, MULTI_MEDIC		},
   { "bandit"	, MULTI_BANDIT		},
   { "soldier"	, MULTI_SOLDIER		},
@@ -86,7 +86,12 @@ int find_multi_flag(char *arg)
 int okay_to_multi(struct char_data * ch, int flag)
 {
   int room;
-
+   
+  /* Have we already multiclassed 3 times? (Starting class + 3 ... 4 is max # of classes) */
+  if (GET_MULTIS(ch) >= 4){
+    send_to_char(ch, "You have already multiclassed the maximum number of allowed times.\r\n");
+    return FALSE;
+  }
   /* Is wanted class same as current class? */
   if (flag == GET_CLASS(ch)) {
     send_to_char(ch, "You are currently a %s!\r\n", pc_class_types[(int)GET_CLASS(ch)]);
@@ -119,6 +124,7 @@ int okay_to_multi(struct char_data * ch, int flag)
 
 void reset_char_stats(struct char_data * ch, int flag)
 {
+  
   GET_MAX_HIT(ch) = MULTI_HP;
   GET_MAX_MANA(ch) = MULTI_MANA;
   GET_MAX_MOVE(ch) = MULTI_MOVE;
@@ -129,6 +135,23 @@ void reset_char_stats(struct char_data * ch, int flag)
 
   GET_LEVEL(ch) = 1;
   GET_CLASS(ch) = flag;
+  
+  switch(GET_MULTIS(ch)){
+
+     case 1:
+       GET_CLASS_2(ch) = flag;
+       break;
+  
+     case 2:
+       GET_CLASS_3(ch) = flag;
+       break;
+  
+     case 3:
+       GET_CLASS_4(ch) = flag;
+       break;
+  }
+  
+  GET_MULTIS(ch) += 1;
   GET_EXP(ch) = 1;
   SET_BIT(MULTI_FLAGS(ch), MULTI_FLAG(flag));
   GET_TOT_LEVEL(ch)++;

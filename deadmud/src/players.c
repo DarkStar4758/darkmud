@@ -262,7 +262,13 @@ int load_char(const char *name, struct char_data *ch)
       GET_SKILL(ch, i) = 0;
     GET_SEX(ch) = PFDEF_SEX;
     GET_CLASS(ch) = PFDEF_CLASS;
+    GET_CLASS_1(ch) = PFDEF_CLAS1;
+    GET_CLASS_2(ch) = PFDEF_CLAS2;
+    GET_CLASS_3(ch) = PFDEF_CLAS3;
+    GET_CLASS_4(ch) = PFDEF_CLAS4;
+    GET_MULTIS(ch) = PFDEF_MULTIS;
     GET_LEVEL(ch) = PFDEF_LEVEL;
+    GET_TOT_LEVEL(ch) = PFDEF_TOTLEVEL;
     GET_HEIGHT(ch) = PFDEF_HEIGHT;
     GET_WEIGHT(ch) = PFDEF_WEIGHT;
     GET_ALIGNMENT(ch) = PFDEF_ALIGNMENT;
@@ -354,6 +360,10 @@ int load_char(const char *name, struct char_data *ch)
       case 'C':
 	     if (!strcmp(tag, "Cha "))	ch->real_abils.cha	= atoi(line);
 	else if (!strcmp(tag, "Clas"))	GET_CLASS(ch)		= atoi(line);
+   else if (!strcmp(tag, "Cla1"))   GET_CLASS_1(ch)   = atoi(line);
+   else if (!strcmp(tag, "Cla2"))   GET_CLASS_2(ch)   = atoi(line);
+   else if (!strcmp(tag, "Cla3"))   GET_CLASS_3(ch)   = atoi(line);
+   else if (!strcmp(tag, "Cla4"))   GET_CLASS_4(ch)   = atoi(line);
 	else if (!strcmp(tag, "Con "))	ch->real_abils.con	= atoi(line);
 	break;
 
@@ -405,6 +415,7 @@ int load_char(const char *name, struct char_data *ch)
       case 'M':
 	     if (!strcmp(tag, "Mana"))	load_HMVS(ch, line, LOAD_MANA);
 	else if (!strcmp(tag, "Move"))	load_HMVS(ch, line, LOAD_MOVE);
+   else if (!strcmp(tag, "Mult"))   GET_MULTIS(ch) = atoi(line);
 	break;
 
       case 'N':
@@ -461,6 +472,7 @@ int load_char(const char *name, struct char_data *ch)
 	else if (!strcmp(tag, "Thr4"))	GET_SAVE(ch, 3)		= atoi(line);
 	else if (!strcmp(tag, "Thr5"))	GET_SAVE(ch, 4)		= atoi(line);
 	else if (!strcmp(tag, "Titl"))	GET_TITLE(ch)		= strdup(line);
+   else if (!strcmp(tag, "Tlvl"))   GET_TOT_LEVEL(ch) = atoi(line);
         else if (!strcmp(tag, "Trig") && CONFIG_SCRIPT_PLAYERS) {
           if ((t_rnum = real_trigger(atoi(line))) != NOTHING) {
             t = read_trigger(t_rnum);
@@ -589,8 +601,14 @@ void save_char(struct char_data * ch)
   if (POOFOUT(ch))				fprintf(fl, "PfOt: %s\n", POOFOUT(ch));
   if (GET_SEX(ch)	     != PFDEF_SEX)	fprintf(fl, "Sex : %d\n", GET_SEX(ch));
   if (GET_CLASS(ch)	   != PFDEF_CLASS)	fprintf(fl, "Clas: %d\n", GET_CLASS(ch));
+  if (GET_CLASS_1(ch)	   != PFDEF_CLAS1)	fprintf(fl, "Cla1: %d\n", GET_CLASS_1(ch));
+  if (GET_CLASS_2(ch)	   != PFDEF_CLAS2)	fprintf(fl, "Cla2: %d\n", GET_CLASS_2(ch));
+  if (GET_CLASS_3(ch)	   != PFDEF_CLAS3)	fprintf(fl, "Cla3: %d\n", GET_CLASS_3(ch));
+  if (GET_CLASS_4(ch)	   != PFDEF_CLAS4)	fprintf(fl, "Cla4: %d\n", GET_CLASS_4(ch));
+  if (GET_MULTIS(ch)     != -1)   fprintf(fl, "Mult: %d\n", GET_MULTIS(ch));
   if (GET_RACE(ch)         != PFDEF_RACE)       fprintf(fl, "Race: %d\n", GET_RACE(ch));
   if (GET_LEVEL(ch)	   != PFDEF_LEVEL)	fprintf(fl, "Levl: %d\n", GET_LEVEL(ch));
+  if (GET_TOT_LEVEL(ch) != PFDEF_TOTLEVEL) fprintf(fl, "Tlvl: %d\n", GET_TOT_LEVEL(ch));
 
   fprintf(fl, "Id  : %ld\n", GET_IDNUM(ch));
   fprintf(fl, "Brth: %ld\n", (long)ch->player.time.birth);

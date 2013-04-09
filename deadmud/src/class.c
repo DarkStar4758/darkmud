@@ -40,7 +40,7 @@ const char *pc_class_types[] = {
   "Adept",
   "Medic",
   "Bandit",
-  "Soldierr",
+  "Soldier",
   "\n"
 };
 
@@ -473,13 +473,15 @@ void do_start(struct char_data *ch)
   GET_LEVEL(ch) = 1;
   GET_TOT_LEVEL(ch) = 1;
   GET_EXP(ch) = 1;
+  GET_CLASS_1(ch) = GET_CLASS(ch);
+  GET_MULTIS(ch) = 1;
 
   set_title(ch, NULL);
   roll_real_abils(ch);
 
   GET_MAX_HIT(ch)  = 10;
   GET_MAX_MANA(ch) = 100;
-  GET_MAX_MOVE(ch) = 82;
+  GET_MAX_MOVE(ch) = 100;
 
   switch (GET_CLASS(ch)) {
 

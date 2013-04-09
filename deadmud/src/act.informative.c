@@ -795,11 +795,12 @@ ACMD(do_score)
 
 {
   struct time_info_data playing_time;
+  char buf[MAX_STRING_LENGTH];
   
     
   if (IS_NPC(ch))
     return;
-  send_to_char(ch, "\r\n");
+  send_to_char(ch, "\tD**********************************************************************\tn\r\n");
   send_to_char(ch, "\tBName:\tn  %s", GET_NAME(ch));
   send_to_char(ch, "     \tBLevel:\tn %3d/%2d", GET_TOT_LEVEL(ch), GET_LEVEL(ch));
   send_to_char(ch, "     \tBTitle:\tn %s\r\n", GET_TITLE(ch));
@@ -811,26 +812,60 @@ ACMD(do_score)
      case RACE_ZOMBIE: send_to_char(ch, "\tBRace:\tn  Zombie       "); break;
      default:  send_to_char(ch, "Race: Undefined.\r\n"); break;
 }
-   /* switch to set class in title */
-  switch (GET_CLASS(ch)) {
-     case CLASS_ADEPT:   send_to_char(ch, "\tBClass:\tn Adept      "); break;
-     case CLASS_MEDIC:   send_to_char(ch, "\tBClass:\tn Medic      "); break;
-     case CLASS_SOLDIER: send_to_char(ch, "\tBClass:\tn Soldier    "); break;
-     case CLASS_BANDIT:  send_to_char(ch, "\tBClass:\tn Bandit     "); break;
-     default:  send_to_char(ch, "Class: Undefined.\r\n"); break;
-}
-  send_to_char(ch, "\tBAge:\tn   %d  ", GET_AGE(ch));
+
+send_to_char(ch, "\tBAge:\tn   %d         ", GET_AGE(ch));
   switch (GET_SEX(ch)) {
         case SEX_MALE: send_to_char(ch, "\tBSex:\tn   Male\r\n"); break;
         case SEX_FEMALE: send_to_char(ch, "\tBSex:\tn   Female\r\n"); break;
         default: send_to_char(ch, "\tBSex:\tn Neutral\r\n"); break;
   }
 
-  playing_time = *real_time_passed((time(0) - ch->player.time.logon) + ch->player.time.played, 0);
-  send_to_char(ch, "\tyYou have been playing for\tn %d \tyday%s and\tn %d \tyhour%s\tn.\r\n",
-     playing_time.day, playing_time.day == 1 ? "" : "s",
-     playing_time.hours, playing_time.hours == 1 ? "" : "s");
-send_to_char(ch, "\tD************************************************************\tn\r\n");
+  send_to_char(ch, "\tD**********************************************************************\tn\r\n");
+   /* switch to set class in title */
+
+  //send_to_char(ch,"\tBClasses: \r\n\r\n\tD[\tn\tBFirst: \tn");
+  switch(GET_MULTIS(ch)){
+
+     case 1:
+       sprinttype (ch->player.class_1, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tBClasses:\r\n\r\n\tD[\tn\tBFirst: \tW%s\tD]\tn   ", buf);
+       send_to_char(ch, "\tD[\tBSecond: \tWN/A\tD]\tn   ");
+       send_to_char(ch, "\tD[\tBThird: \tWN/A\tD]\tn   ");
+       send_to_char(ch, "\tD[\tBFourth: \tWN/A\tD]\tn\r\n");
+       break;
+     
+     case 2:
+       sprinttype (ch->player.class_1, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tBClasses:\r\n\r\n\tD[\tn\tBFirst: \tW%s\tD]\tn   ", buf);
+       sprinttype (ch->player.class_2, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tD[\tn\tBSecond: \tW%s\tD]\tn   ", buf);
+       send_to_char(ch, "\tD[\tBThird: \tWN/A\tD]\tn   ");
+       send_to_char(ch, "\tD[\tBFourth: \tWN/A\tD]\tn\r\n");
+       break;
+
+     case 3:
+       sprinttype (ch->player.class_1, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tBClasses:\r\n\r\n\tD[\tn\tBFirst: \tW%s\tD]\tn   ", buf);
+       sprinttype (ch->player.class_2, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tD[\tn\tBSecond: \tW%s\tD]\tn   ", buf);
+       sprinttype (ch->player.class_3, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tD[\tn\tBThird: \tW%s\tD]\tn   ", buf);
+       send_to_char(ch, "\tD[\tBFourth: \tWN/A\tD]\tn\r\n");
+       break;
+
+     case 4:
+       sprinttype (ch->player.class_1, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tBClasses:\r\n\r\n\tD[\tn\tBFirst: \tW%s\tD]\tn   ", buf);
+       sprinttype (ch->player.class_2, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tD[\tn\tBSecond: \tW%s\tD]\tn   ", buf);
+       sprinttype (ch->player.class_3, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tD[\tn\tBThird: \tW%s\tD]\tn   ", buf);
+       sprinttype (ch->player.class_4, pc_class_types, buf, sizeof(buf));
+       send_to_char(ch, "\tD[\tn\tBFourth: \tW%s\tD]\tn   ", buf);
+       break;
+  }
+
+  send_to_char(ch, "\tD**********************************************************************\tn\r\n");
 
     /* start alignment score code */
   if (GET_ALIGNMENT(ch) <= -851 && GET_ALIGNMENT(ch) >= -1000 )
@@ -892,7 +927,12 @@ send_to_char(ch, "\tD***********************************************************
 	      send_to_char(ch,  "\tWYou are Naked.\tn\r\n");
     /* End of armor class score code */
 
-send_to_char(ch, "\tD************************************************************\tn\r\n");
+  playing_time = *real_time_passed((time(0) - ch->player.time.logon) + ch->player.time.played, 0);
+  send_to_char(ch, "\tyYou have been playing for\tn %d \tyday%s and\tn %d \tyhour%s\tn.\r\n",
+     playing_time.day, playing_time.day == 1 ? "" : "s",
+     playing_time.hours, playing_time.hours == 1 ? "" : "s");
+
+  send_to_char(ch, "\tD**********************************************************************\tn\r\n");
   send_to_char(ch, "\tBStr:\tn %d\tB/\tn%d\r\n", GET_STR(ch), GET_ADD(ch));
   send_to_char(ch, "\tBInt:\tn %d", GET_INT(ch));
   send_to_char(ch, "               \tBLife:\tn %d(%d)  \tY--->\tn \tBLife Regen:\tn %d\r\n", GET_HIT(ch), GET_MAX_HIT(ch), hit_gain(ch));
@@ -909,12 +949,12 @@ send_to_char(ch, "\tD***********************************************************
   send_to_char(ch, "\tBCha:\tn %d", GET_CHA(ch));
   send_to_char(ch, "               \tBDamroll:\tn %d\r\n", (GET_DAMROLL(ch)));
      
-  send_to_char(ch, "\tD************************************************************\tn\r\n");
+  send_to_char(ch, "\tD**********************************************************************\tn\r\n");
 send_to_char(ch, "\tBEXP Gained:\tn %d\r\n", GET_EXP(ch));
 if (GET_LEVEL(ch) < LVL_IMMORT)
 send_to_char(ch, "\tYYou need\tn %d \tYexp to reach your next level.\tn\r\n", level_exp(GET_CLASS(ch), GET_LEVEL(ch) + 1) - GET_EXP(ch));
 send_to_char(ch, "\tBGold:\tn %d\r\n", GET_GOLD(ch));  
-send_to_char(ch, "\tD************************************************************\tn\r\n");
+send_to_char(ch, "\tD**********************************************************************\tn\r\n");
 send_to_char(ch, "\tBQuestpoints:\tn %d\r\n", GET_QUESTPOINTS(ch));
 send_to_char(ch, "\tBYou have completed\tn %d \tBquest%s,\tn ",
        GET_NUM_QUESTS(ch),
@@ -925,7 +965,7 @@ send_to_char(ch, "\tBYou have completed\tn %d \tBquest%s,\tn ",
     send_to_char(ch, "\tBand your current quest is\tn %d\tB.\tn           \r\n",
                      GET_QUEST(ch) == NOTHING ? -1 : GET_QUEST(ch));    
     
-send_to_char(ch, "\tD************************************************************\tn\r\n");
+send_to_char(ch, "\tD**********************************************************************\tn\r\n");
 
  send_to_char(ch, "\tBAffections:\tn\r\n");
     
@@ -1348,13 +1388,51 @@ ACMD(do_who)
         continue;
 
       if (short_list) {
-        send_to_char(ch, "%s[%3d/%2d %s %s] %-12.12s%s%s",
+        /*if (GET_LEVEL(tch) >= LVL_IMMORT){
+           switch (GET_LEVEL(tch)){
+             case LVL_IMMORT:
+               GET_TOT_LEVEL(tch) = 201;
+               break;
+             case LVL_GOD:
+               GET_TOT_LEVEL(tch) = 202;
+               break;
+             case LVL_GRGOD:
+               GET_TOT_LEVEL(tch) = 203;
+               break;
+             case LVL_DIETY:
+               GET_TOT_LEVEL(tch) = 204;
+               break;
+             case LVL_IMPL:
+               GET_TOT_LEVEL(tch) = 205;
+               break;
+           }
+         }*/
+        send_to_char(ch, "%s[%4d/%2d %s %s] %-12.12s%s%s",
           (GET_LEVEL(tch) >= LVL_IMMORT ? CCYEL(ch, C_SPR) : ""),
           GET_TOT_LEVEL(tch), GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch), GET_NAME(tch),
           CCNRM(ch, C_SPR), ((!(++num_can_see % 4)) ? "\r\n" : ""));
       } else {
+        /*if (GET_LEVEL(tch) >= LVL_IMMORT){
+          switch (GET_LEVEL(tch)){
+            case LVL_IMMORT:
+              GET_TOT_LEVEL(tch) = 201;
+              break;
+            case LVL_GOD:
+              GET_TOT_LEVEL(tch) = 202;
+              break;
+            case LVL_GRGOD:
+              GET_TOT_LEVEL(tch) = 203;
+              break;
+            case LVL_DIETY:
+              GET_TOT_LEVEL(tch) = 204;
+              break;
+            case LVL_IMPL:
+              GET_TOT_LEVEL(tch) = 205;
+              break;
+          }
+        }*/
         num_can_see++;
-        send_to_char(ch, "%s[%3d/%2d %s %s] %s%s%s%s",
+        send_to_char(ch, "%s[%4d/%2d %s %s] %s%s%s%s",
             (GET_LEVEL(tch) >= LVL_IMMORT ? CCYEL(ch, C_SPR) : ""),
             GET_TOT_LEVEL(tch), GET_LEVEL(tch), RACE_ABBR(tch), CLASS_ABBR(tch),
             GET_NAME(tch), (*GET_TITLE(tch) ? " " : ""), GET_TITLE(tch),

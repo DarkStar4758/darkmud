@@ -3440,13 +3440,13 @@ void init_char(struct char_data *ch)
   /* If this is our first player make him IMPL. */
   if (top_of_p_table == 0) {
     GET_LEVEL(ch) = LVL_IMPL;
-    GET_TOT_LEVEL(ch) = (NUM_CLASSES * 50) + (LVL_IMPL - (LVL_IMMORT - 1));
+    GET_TOT_LEVEL(ch) = 205;
     GET_EXP(ch) = 7000000;
 
     /* The implementor never goes through do_start(). */
     GET_MAX_HIT(ch) = 500;
     GET_MAX_MANA(ch) = 100;
-    GET_MAX_MOVE(ch) = 82;
+    GET_MAX_MOVE(ch) = 100;
     GET_HIT(ch) = GET_MAX_HIT(ch);
     GET_MANA(ch) = GET_MAX_MANA(ch);
     GET_MOVE(ch) = GET_MAX_MOVE(ch);

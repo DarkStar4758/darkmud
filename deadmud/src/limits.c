@@ -240,11 +240,26 @@ void gain_exp(struct char_data *ch, int gain)
     while (GET_LEVEL(ch) < LVL_IMMORT - CONFIG_NO_MORT_TO_IMMORT &&
 	GET_EXP(ch) >= level_exp(GET_CLASS(ch), GET_LEVEL(ch) + 1)) {
       GET_LEVEL(ch) += 1;
-      GET_TOT_LEVEL(ch) += 1;
       num_levels++;
       advance_level(ch);
       is_altered = TRUE;
     }
+      
+      switch (GET_MULTIS(ch)){
+  
+      case 1:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch));
+        break;
+      case 2:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch) + 50);
+        break;
+      case 3:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch) + 100);
+        break;
+      case 4:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch) + 150);
+        break;
+      }
 
     if (is_altered) {
       mudlog(BRF, MAX(LVL_IMMORT, GET_INVIS_LEV(ch)), TRUE, "%s advanced %d level%s to level %d.",
@@ -283,11 +298,26 @@ void gain_exp_regardless(struct char_data *ch, int gain)
     while (GET_LEVEL(ch) < LVL_IMPL &&
 	GET_EXP(ch) >= level_exp(GET_CLASS(ch), GET_LEVEL(ch) + 1)) {
       GET_LEVEL(ch) += 1;
-      GET_TOT_LEVEL(ch) += 1;
       num_levels++;
       advance_level(ch);
       is_altered = TRUE;
     }
+    
+      switch (GET_MULTIS(ch)){
+  
+      case 1:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch));
+        break;
+      case 2:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch) + 50);
+        break;
+      case 3:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch) + 100);
+        break;
+      case 4:
+        GET_TOT_LEVEL(ch) = (GET_LEVEL(ch) + 150);
+        break;
+      }
 
     if (is_altered) {
       mudlog(BRF, MAX(LVL_IMMORT, GET_INVIS_LEV(ch)), TRUE, "%s advanced %d level%s to level %d.",

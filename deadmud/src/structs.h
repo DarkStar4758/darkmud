@@ -887,6 +887,10 @@ struct char_player_data
   char *title;                   /**< PC / NPC title */
   byte sex;                      /**< PC / NPC sex */
   byte chclass;                  /**< PC / NPC class */
+  byte class_1;					  /**< First PC Class */
+  byte class_2;                /**< Second PC Class */
+  byte class_3;                /**< Third PC Class */
+  byte class_4;                /**< Fourth PC Class */
   byte level;                    /**< PC / NPC level */
   struct time_data time;         /**< PC AGE in days */
   ubyte weight;                  /**< PC / NPC weight */
@@ -984,6 +988,7 @@ struct player_special_data_saved
   int    quest_counter;         /**< Count of targets left to get  */
   time_t   lastmotd;            /**< Last time player read motd */
   time_t   lastnews;            /**< Last time player read news */
+  int multis;                   /**< Number of Multi's */
   int multi_flags;
   int total_level;
 };
